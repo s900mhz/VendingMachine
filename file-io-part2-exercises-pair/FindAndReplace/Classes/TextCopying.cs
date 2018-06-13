@@ -5,13 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using FindAndReplace.Classes;
 
-namespace FindAndReplace
+namespace FindAndReplace.Classes
 {
-    class Program
+    public class TextCopying
     {
-        static void Main(string[] args)
-        {
-            StringReplacing.FindAndReplace();
-        }
+
     }
 }

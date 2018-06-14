@@ -43,7 +43,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\TextCopying.cs" />
     <Compile Include="Classes\StringFinder.cs" />
     <Compile Include="Classes\FileOpen.cs" />
     <Compile Include="Classes\StringReplacing.cs" />

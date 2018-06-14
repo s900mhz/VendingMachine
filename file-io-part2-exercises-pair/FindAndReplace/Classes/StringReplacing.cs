@@ -21,30 +21,19 @@ namespace FindAndReplace.Classes
             {
                 using (StreamReader sr = new StreamReader(fullDirectoryPath))
                 {
-                    using (StreamWriter sw = new StreamWriter(outputFullPath, true))
+                    using (StreamWriter sw = new StreamWriter(outputFullPath, false))
                     {
-
-                        // For each line in the input file, read it in                    
                         while (!sr.EndOfStream)
                         {
-                            // Read an individual line
                             string line = sr.ReadLine();
-                            //Splitting the lines
-                            //string[] words = line.Split(' ');
-
-                           // foreach (var item in words) //looping through each word
-                           // {
+                            
                                 string fixedWords = "";
                                                             
                                      fixedWords = line.Replace(searchInput, searchReplace);
                                                                     
                                 sw.WriteLine(fixedWords);
-                            //}
-                            // Write the new line to the output file
-                            
                         }
                     }
-                    
                 }
             }
             catch (IOException e) //catch a specific type of Exception

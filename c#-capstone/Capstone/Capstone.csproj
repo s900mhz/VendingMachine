@@ -44,16 +44,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\Change.cs" />
-    <Compile Include="Classes\Customer.cs" />
     <Compile Include="Classes\Exceptions\Exceptions.cs" />
     <Compile Include="Classes\InventoryFile.cs" />
     <Compile Include="Classes\Items\BeverageItem.cs" />
     <Compile Include="Classes\Items\CandyItem.cs" />
     <Compile Include="Classes\Items\ChipItem.cs" />
     <Compile Include="Classes\Items\GumItem.cs" />
+    <Compile Include="Classes\Items\InventorySlot.cs" />
     <Compile Include="Classes\TransactionLog.cs" />
+    <Compile Include="Classes\VendingMachine.cs" />
     <Compile Include="Classes\VendingMachineCLI.cs" />
-    <Compile Include="Classes\VendingMachineItem.cs" />
+    <Compile Include="Classes\Items\VendingMachineItem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Capstone.Classes.Items
+namespace Capstone.Classes
 {
     public class GumItem : VendingMachineItem
     {
@@ -14,7 +14,7 @@ namespace Capstone.Classes.Items
         }
         public override void Consume()
         {
-           Console.WriteLine("Crunch Crunch, Yum");
+           Console.WriteLine("CHEKW CHEKW, YAY");
         }
         
     }

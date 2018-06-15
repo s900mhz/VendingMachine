@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Capstone.Classes.Items
+namespace Capstone.Classes
 {
     public class BeverageItem : VendingMachineItem
     {

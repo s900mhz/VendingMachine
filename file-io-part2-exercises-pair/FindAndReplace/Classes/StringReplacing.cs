@@ -13,9 +13,10 @@ namespace FindAndReplace.Classes
         public static string FindAndReplace()
         {
             string fullDirectoryPath = FileOpen.GetValidDirectory();
+            string outputFullPath = FileOpen.FileToWrite();
             string searchInput = StringFinder.GetFindString();
             string searchReplace = StringFinder.GetReplaceString();
-            string outputFullPath = Path.Combine(FileOpen.directory, FileOpen.OutPutFile);
+            
 
             try
             {

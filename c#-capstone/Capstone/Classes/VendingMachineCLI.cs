@@ -7,29 +7,18 @@ namespace Capstone.Classes
 {
     public class VendingMachineCLI
     {
-        public string option_DisplayPurchaseMenu;
-        public string option_DisplayVendingMachine;
-        public string option_InsertMoney;
-        public string option_MakeSelection;
-        public string option_Quit;
-        public string option_ReturnChange;
-        public string option_ReturnToPreviousMenu;
-
         private VendingMachine _vm = null;
-
-        //Property
-        //vm: VendingMachine;
-
+        
         public VendingMachineCLI(VendingMachine vm)
         {
             _vm = vm;
         }
+        #region Methods
 
-        //Methods
-        public void DisplayInvalidOption() { }
-
-        public void DisplayInventory()
+        
+        public void DisplayInventory(bool exit)
         {
+            
             Console.Clear();
             Console.WriteLine($"Slot \t Item \t\t Price \t Quantity");
             foreach (KeyValuePair<string, InventorySlot> item in _vm.Inventory)
@@ -38,77 +27,75 @@ namespace Capstone.Classes
                 Console.WriteLine($"{item.Key} \t {item.Value.Item.ItemName} \t {item.Value.Item.Price}" +
                     $" \t {item.Value.Quantity}");
             }
+            Console.WriteLine("Press any key to continue: ");
             Console.ReadKey();
+            if (exit)
+            {
+                DisplayPurchaseMenu();
+            }
+            
         }
-
+        #endregion
+        #region Display Purchase Menu
         public void DisplayPurchaseMenu()
         {
             Console.Clear();
             Console.WriteLine("(1) Feed Money \n" +
                               "(2) Select Product \n" +
                               "(3) Finish Transaction");
-            string selection = Console.ReadLine();
+            Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
+           string navigation = Console.ReadLine();
 
             bool exit = false;
-            string navigation = "";
             while (!exit)
             {
-                if (selection == "1")
+                if (navigation == "1")
                 {
                     FeedMoneyMenu();
                 }
-                else if (selection == "2")
+                else if (navigation == "2")
                 {
-                    DisplayInventory();
-                    //Console.WriteLine($"To add more money press \"m\"");
-                    //if (navigation == "m")
-                    //{
-                    //    FeedMoneyMenu();
-                    //}
-                    Console.WriteLine("Please select your product");
+                    DisplayInventory(false);
+                    Console.WriteLine();
+                    Console.WriteLine("Please select your product or press b to go back: ");
                     string productSelection = Console.ReadLine();
                     _vm.PurchaseItem(productSelection);
+                    if (productSelection == "b")
+                    {
+                        DisplayPurchaseMenu();
+                    }
+                    
+                }
+                else if (navigation == "3")
+                {
+                    Change.MakeChange(_vm.CurrentBalance);
+                    Console.WriteLine("Your current balance is: " + _vm.CurrentBalance.ToString("c"));
+                    Console.WriteLine(Change.MakeChange(_vm.CurrentBalance));
+                    _vm.ResetBalance();
+                    TransactionLog.WriteToSalesLog(_vm.Inventory);
+                    exit = true;
 
-                    if (navigation == "a")
-                    {
-                        FeedMoneyMenu();
-                    }
-                    if (navigation == "q")
-                    {
-                        DisplayInventory();
-                    }
-                }
-                else if (selection == "3")
-                {
-                    //need to exit and give change
-                }
-                Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
-                Console.WriteLine($"To add more money press \"a\" \n" +
-                                  $"To return to previous menu press \"q\"");
-                navigation = Console.ReadLine();
-                if (navigation == "a")
-                {
-                    exit = false;
-                }
-                else if (navigation == "q")
-                {
-                    DisplayPurchaseMenu();
                 }
             }
         }
+        #endregion
         public void DisplayReturnedChange() { }
         public void PrintTitle() { }
         public void Run()
         {
+            Console.Clear();
             Console.WriteLine("(1) Display Vending Machine Items \n" +
                               "(2) Purchase");
-            string mainMenuSelection = Console.ReadLine();
+            Console.WriteLine();
+            Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
             
-                if (mainMenuSelection == "1")
+           string navigation = Console.ReadLine();
+            
+                if (navigation == "1")
                 {
-                    DisplayInventory();
+                    DisplayInventory(true);
                 }
-                else if (mainMenuSelection == "2")
+                else if (navigation == "2")
                 {
                     DisplayPurchaseMenu();
                 }
@@ -117,37 +104,57 @@ namespace Capstone.Classes
                     Console.WriteLine("Please enter a valid selection. \n" +
                                      "Press any key to continue.");
                 }
+            Console.ReadKey();
         }
 
+        #region Feed Money Menu
         public void FeedMoneyMenu()
         {
-            Console.Clear();
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
             Console.WriteLine("How much money would you like to insert?");
             Console.WriteLine("(1) $1");
             Console.WriteLine("(2) $2");
-            Console.WriteLine("(3) $5");
-            Console.WriteLine("(4) $10");
-            string moneyChoice = Console.ReadLine();
-            if (moneyChoice == "1")
-            {
-                _vm.FeedMoney(1);
-                TransactionLog.DepositLog(1, _vm.CurrentBalance);
+            Console.WriteLine("(5) $5");
+            Console.WriteLine("(10) $10");
+            Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
+            Console.WriteLine();
+            Console.WriteLine($"To return to previous menu press \"b\"");
+            
+           
+           string navigation = Console.ReadLine();
+            
+           
+                if (navigation == "1")
+                {
+                    _vm.FeedMoney(1);
+                    TransactionLog.DepositLog(1, _vm.CurrentBalance);
+                }
+                else if (navigation == "2")
+                {
+                    _vm.FeedMoney(2);
+                    TransactionLog.DepositLog(2, _vm.CurrentBalance);
+                }
+                else if (navigation == "5")
+                {
+                    _vm.FeedMoney(5);
+                    TransactionLog.DepositLog(5, _vm.CurrentBalance);
+                }
+                else if (navigation == "10")
+                {
+                    _vm.FeedMoney(10);
+                    TransactionLog.DepositLog(10, _vm.CurrentBalance);
+                }
+                else if (navigation == "b")
+                { 
+                    exit = true;
+                    DisplayPurchaseMenu();
+                }
             }
-            if (moneyChoice == "2")
-            {
-                _vm.FeedMoney(2);
-                TransactionLog.DepositLog(2, _vm.CurrentBalance);
-            }
-            if (moneyChoice == "3")
-            {
-                _vm.FeedMoney(5);
-                TransactionLog.DepositLog(5, _vm.CurrentBalance);
-            }
-            if (moneyChoice == "4")
-            {
-                _vm.FeedMoney(10);
-                TransactionLog.DepositLog(10, _vm.CurrentBalance);
-            }
+
         }
+        #endregion
     }
 }

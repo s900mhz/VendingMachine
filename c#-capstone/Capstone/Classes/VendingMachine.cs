@@ -25,6 +25,12 @@ namespace Capstone.Classes
             CurrentBalance += dollars;
         }
 
+        public Dictionary<string, InventorySlot> GetVendingInventory()
+        {
+            //This is only passed to Transaction Log
+            return Inventory;
+        }
+
         public void PurchaseItem(string slot)
         {
             try
@@ -36,6 +42,9 @@ namespace Capstone.Classes
                     {
                         Inventory[slot].Quantity -= 1;
                         CurrentBalance -= Inventory[slot].Item.Price;
+                        TransactionLog.PurchaseLog(Inventory[slot].Item.ItemName, slot,
+                                                   CurrentBalance, Inventory[slot].Item.Price);
+
                     }
                     else
                     {
@@ -48,8 +57,11 @@ namespace Capstone.Classes
             catch
             {
                 Console.WriteLine("That is not a valid entry. Please try again");
-                //DisplayInventory WORK DAMMIT
             }
+        }
+        public void ResetBalance()
+        {
+            CurrentBalance = 0;
         }
     }
 }

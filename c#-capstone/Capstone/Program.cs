@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Capstone.Classes.Exceptions;
 using Capstone.Classes;
 
-namespace Capstone
+namespace Capstone.Classes
 {
     class Program
     {

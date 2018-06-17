@@ -7,6 +7,7 @@ namespace Capstone.Classes
 {
     public class VendingMachineCLI
     {
+        
         private VendingMachine _vm = null;
         
         public VendingMachineCLI(VendingMachine vm)
@@ -32,12 +33,16 @@ namespace Capstone.Classes
                 //Console.WriteLine("{15, 32}{15,32}", item.Key + item.Value.Item.ItemName + item.Value.Item.Price);
                 Console.WriteLine($"{item.Key} \t {item.Value.Item.ItemName} \t {item.Value.Item.Price}" +
                     $" \t {printQuantity}");
+                //Console.WriteLine("{0,-10}", item.Key, item.Value.Item.ItemName, item.Value.Item.Price, item.Value.Quantity);
             }
+            Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
             Console.WriteLine("Press any key to continue: ");
-            Console.ReadKey();
+            
             if (exit)
             {
-                DisplayPurchaseMenu();
+                Console.ReadKey();
+                Run();
+
             }
             
         }
@@ -65,8 +70,9 @@ namespace Capstone.Classes
                     Console.WriteLine();
                     Console.WriteLine("Please select your product or press b to go back: ");
                     string productSelection = Console.ReadLine();
+                    productSelection = productSelection.ToUpper();
                     _vm.PurchaseItem(productSelection);
-                    if (productSelection == "b")
+                    if (productSelection == "b" || productSelection == "B")
                     {
                         DisplayPurchaseMenu();
                     }
@@ -78,15 +84,19 @@ namespace Capstone.Classes
                     Console.WriteLine("Your current balance is: " + _vm.CurrentBalance.ToString("c"));
                     Console.WriteLine(Change.MakeChange(_vm.CurrentBalance));
                     _vm.ResetBalance();
-                    TransactionLog.WriteToSalesLog(_vm.Inventory);
+                    SalesLog.WriteToLog(_vm.Inventory);
+                    Console.ReadKey();
                     exit = true;
-
+                    Run();
                 }
             }
         }
         #endregion
         public void DisplayReturnedChange() { }
-        public void PrintTitle() { }
+        public Dictionary<string, InventorySlot> GetCurrentInventory()
+        {
+            return _vm.Inventory;
+        }
         public void Run()
         {
             Console.Clear();
@@ -153,7 +163,7 @@ namespace Capstone.Classes
                     _vm.FeedMoney(10);
                     TransactionLog.DepositLog(10, _vm.CurrentBalance);
                 }
-                else if (navigation == "b")
+                else if (navigation == "b" || navigation == "B")
                 { 
                     exit = true;
                     DisplayPurchaseMenu();

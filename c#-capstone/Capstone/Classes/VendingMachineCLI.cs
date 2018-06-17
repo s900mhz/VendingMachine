@@ -23,9 +23,15 @@ namespace Capstone.Classes
             Console.WriteLine($"Slot \t Item \t\t Price \t Quantity");
             foreach (KeyValuePair<string, InventorySlot> item in _vm.Inventory)
             {
+                var printQuantity = item.Value.Quantity.ToString();
+                if(item.Value.Quantity < 1)
+                {
+                    printQuantity = "SOLD OUT";
+                }
+
                 //Console.WriteLine("{15, 32}{15,32}", item.Key + item.Value.Item.ItemName + item.Value.Item.Price);
                 Console.WriteLine($"{item.Key} \t {item.Value.Item.ItemName} \t {item.Value.Item.Price}" +
-                    $" \t {item.Value.Quantity}");
+                    $" \t {printQuantity}");
             }
             Console.WriteLine("Press any key to continue: ");
             Console.ReadKey();

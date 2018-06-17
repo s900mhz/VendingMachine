@@ -8,19 +8,19 @@ namespace Capstone.Tests
     [TestClass]
     public class UnitTest1
     {
-        VendingMachine vm1 = new VendingMachine();
-        VendingMachine vm2 = new VendingMachine();
-        VendingMachine vm3 = new VendingMachine();
-        VendingMachine vm4 = new VendingMachine();
+        VendingMachine testvm1 = new VendingMachine();
+        VendingMachine testvm2 = new VendingMachine();
+        VendingMachine testvm3 = new VendingMachine();
+        VendingMachine testvm4 = new VendingMachine();
 
         [TestMethod]
         public void FeedMoney()
         {
-            vm1.FeedMoney(5);
-            Assert.AreEqual(5, vm1.CurrentBalance, "Balance is incorrect");
+            testvm1.FeedMoney(5);
+            Assert.AreEqual(5, testvm1.CurrentBalance, "Balance is incorrect");
 
-            vm2.FeedMoney(225);
-            Assert.AreEqual(225, vm2.CurrentBalance, "Balance is incorrect");
+            testvm2.FeedMoney(225);
+            Assert.AreEqual(225, testvm2.CurrentBalance, "Balance is incorrect");
             
             //Don't need negative test - user does NOT have this choice!
 
@@ -33,26 +33,84 @@ namespace Capstone.Tests
             VendingMachine vm5 = new VendingMachine();
             vm5.FeedMoney(5);
             vm5.PurchaseItem("A1");
-            Assert.AreEqual(4, vm5.Inventory["A1"].Quantity);
+            Assert.AreEqual(4, vm5.Inventory["A1"].Quantity, "Quantity returned after purchase incorrect.");
 
             InventoryFile.CreateStartingInventory();
             VendingMachine vm1 = new VendingMachine();
             vm1.FeedMoney(5);
             vm1.PurchaseItem("B1");
-            Assert.AreEqual(4, vm1.Inventory["B1"].Quantity);
+            Assert.AreEqual(4, vm1.Inventory["B1"].Quantity, "Quantity returned after purchase incorrect.");
             
             InventoryFile.CreateStartingInventory();
             VendingMachine vm2 = new VendingMachine();
             vm2.FeedMoney(5);
             vm2.PurchaseItem("C1");
-            Assert.AreEqual(4, vm2.Inventory["C1"].Quantity);
+            Assert.AreEqual(4, vm2.Inventory["C1"].Quantity, "Quantity returned after purchase incorrect.");
+
+            //Subsequent pings checking reduction of quantity
+            InventoryFile.CreateStartingInventory();
+            vm5.FeedMoney(5);
+            vm5.PurchaseItem("A1");
+            Assert.AreEqual(3, vm5.Inventory["A1"].Quantity, "Quantity returned after purchase incorrect.");
+
+            vm5.FeedMoney(5);
+            vm5.PurchaseItem("A1");
+            Assert.AreEqual(2, vm5.Inventory["A1"].Quantity, "Quantity returned after purchase incorrect.");
+
+            vm5.FeedMoney(5);
+            vm5.PurchaseItem("A1");
+            Assert.AreEqual(1, vm5.Inventory["A1"].Quantity, "Quantity returned after purchase incorrect.");
+
+            vm5.FeedMoney(5);
+            vm5.PurchaseItem("A1");
+            Assert.AreEqual(0, vm5.Inventory["A1"].Quantity, "Quantity returned after purchase incorrect.");
+
+                    //vm5.FeedMoney(5);
+                    //vm5.PurchaseItem("A1");
+                    //Assert.AreEqual(0, vm5.Inventory["A1"].Quantity, "Cannot return negative quantities");
+
+            //Test return when Quantity == 0
+
+            //Test
 
 
         }
+        [TestMethod]
+        public void CorrectChangeDeduction()
+        {
+            InventoryFile.CreateStartingInventory();
+            VendingMachine testvm5 = new VendingMachine();
+            testvm5.FeedMoney(5);
+            testvm5.PurchaseItem("A1");
+            Assert.AreEqual(1.95M, testvm5.CurrentBalance, "Current balance returned after purchase incorrect.");
+
+            InventoryFile.CreateStartingInventory();
+            VendingMachine testvm1 = new VendingMachine();
+            testvm1.FeedMoney(5);
+            testvm1.PurchaseItem("A4");
+            Assert.AreEqual(1.35M, testvm1.CurrentBalance, "Current balance returned after purchase incorrect.");
+
+            //Not enough funds check
+            testvm1.PurchaseItem("A4");
+            Assert.AreEqual(1.35M, testvm1.CurrentBalance, "Should not be allowed to purchase product" +
+                                                       "costing more than available current balance.");
+
+
+
+        }
+
+        [TestMethod]
+        public void ChangeBackCorrect()
+        {
+
+        }
+
         //[TestMethod]
-        //public void TestMethod1()
+        //public void NotEnoughFunds()
         //{
 
         //}
+
+        
     }
 }

@@ -25,11 +25,11 @@ namespace Capstone.Classes
             CurrentBalance += dollars;
         }
 
-        public Dictionary<string, InventorySlot> GetVendingInventory()
-        {
-            //This is only passed to Transaction Log
-            return Inventory;
-        }
+        //public Dictionary<string, InventorySlot> GetVendingInventory()
+        //{
+        //    //This is only passed to Transaction Log
+        //    return Inventory;
+        //}
 
         public void PurchaseItem(string slot)
         {

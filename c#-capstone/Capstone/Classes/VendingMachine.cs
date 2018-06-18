@@ -38,7 +38,7 @@ namespace Capstone.Classes
 
                 if (Inventory.Keys.Contains(slot))
                 {
-                    if (CurrentBalance > Inventory[slot].Item.Price)
+                    if (CurrentBalance > Inventory[slot].Item.Price && Inventory[slot].Quantity > 0)
                     {
                         Inventory[slot].Quantity -= 1;
                         CurrentBalance -= Inventory[slot].Item.Price;
@@ -48,7 +48,7 @@ namespace Capstone.Classes
                     }
                     else
                     {
-                        Console.WriteLine("Not enough current funds. \n" +
+                        Console.WriteLine("Not enough current funds or item out of stock. \n" +
                                           "Press any key to continue.");
                         Console.ReadKey();
                     }

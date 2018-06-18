@@ -85,32 +85,57 @@ namespace Capstone.Tests
             Assert.AreEqual(1.95M, testvm5.CurrentBalance, "Current balance returned after purchase incorrect.");
 
             InventoryFile.CreateStartingInventory();
-            VendingMachine testvm1 = new VendingMachine();
             testvm1.FeedMoney(5);
-            testvm1.PurchaseItem("A4");
-            Assert.AreEqual(1.35M, testvm1.CurrentBalance, "Current balance returned after purchase incorrect.");
-
-            //Not enough funds check
-            testvm1.PurchaseItem("A4");
-            Assert.AreEqual(1.35M, testvm1.CurrentBalance, "Should not be allowed to purchase product" +
-                                                       "costing more than available current balance.");
-
-
+            testvm1.PurchaseItem("D1");
+            Assert.AreEqual(4.15M, testvm1.CurrentBalance, "Current balance returned after purchase incorrect.");
 
         }
 
         [TestMethod]
         public void ChangeBackCorrect()
         {
+            InventoryFile.CreateStartingInventory();
+            VendingMachine vm5 = new VendingMachine();
+            vm5.FeedMoney(2);
+            vm5.PurchaseItem("D3");
+            Assert.AreEqual("Your change is 5 Quarters 0 Dimes 0 Nickels.", Change.MakeChange(vm5.CurrentBalance), "Change given back is incorrect.");
 
         }
 
-        //[TestMethod]
-        //public void NotEnoughFunds()
-        //{
+        [TestMethod]
+        public void NotEnoughFunds()
+        {
+            InventoryFile.CreateStartingInventory();
+            VendingMachine testvm1 = new VendingMachine();
+            testvm1.FeedMoney(5);
+            testvm1.PurchaseItem("A4");
+            Assert.AreEqual(1.35M, testvm1.CurrentBalance, 
+                "Current balance returned after purchase incorrect.");
+            
+            testvm1.PurchaseItem("A4");
+            Assert.AreEqual(1.35M, testvm1.CurrentBalance, "Should not be allowed to purchase product" +
+                        "costing more than available current balance.");
+        }
 
-        //}
+        [TestMethod]
+        public void NotEnoughQuantity()
+        {
+            //Spinning endlessly due to Console.ReadKey
 
-        
-    }
+            //InventoryFile.CreateStartingInventory();
+            //VendingMachine testvm1 = new VendingMachine();
+            //testvm1.FeedMoney(10);
+            //testvm1.PurchaseItem("D4");
+            //testvm1.PurchaseItem("D4");
+            //testvm1.PurchaseItem("D4");
+            //testvm1.PurchaseItem("D4");
+            //testvm1.PurchaseItem("D4");
+            //testvm1.PurchaseItem("D4");
+            //Assert.AreEqual("SOLD OUT", testvm1.Inventory["D4"].Quantity,
+            //    "Cannot purchase more than available quantity of item.");
+            
+        }
+
+
+}
 }

@@ -13,7 +13,7 @@ namespace Capstone.Classes
         public decimal Price { get; }
 
         //Methods
-        public abstract void Consume();
+        public abstract string Consume();
         public VendingMachineItem(string itemName, decimal price)
         {
             ItemName = itemName;

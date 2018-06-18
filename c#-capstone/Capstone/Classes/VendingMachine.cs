@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 
 
 namespace Capstone.Classes
@@ -44,6 +45,8 @@ namespace Capstone.Classes
                         CurrentBalance -= Inventory[slot].Item.Price;
                         TransactionLog.PurchaseLog(Inventory[slot].Item.ItemName, slot,
                                                    CurrentBalance, Inventory[slot].Item.Price);
+                        Console.WriteLine(Inventory[slot].Item.Consume());
+                        Thread.Sleep(1000);
 
                     }
                     else

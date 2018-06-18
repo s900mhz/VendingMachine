@@ -12,9 +12,9 @@ namespace Capstone.Classes
         {
 
         }
-        public override void Consume()
+        public override string Consume()
         {
-           Console.WriteLine("CHEKW CHEKW, YAY");
+          return "CHEKW CHEKW, YAY";
         }
         
     }

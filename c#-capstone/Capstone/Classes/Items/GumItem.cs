@@ -14,7 +14,7 @@ namespace Capstone.Classes
         }
         public override string Consume()
         {
-          return "CHEKW CHEKW, YAY";
+          return "Chew Chew, Yum!";
         }
         
     }

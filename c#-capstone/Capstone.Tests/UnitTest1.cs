@@ -65,14 +65,6 @@ namespace Capstone.Tests
             vm5.PurchaseItem("A1");
             Assert.AreEqual(0, vm5.Inventory["A1"].Quantity, "Quantity returned after purchase incorrect.");
 
-                    //vm5.FeedMoney(5);
-                    //vm5.PurchaseItem("A1");
-                    //Assert.AreEqual(0, vm5.Inventory["A1"].Quantity, "Cannot return negative quantities");
-
-            //Test return when Quantity == 0
-
-            //Test
-
 
         }
         [TestMethod]
@@ -128,18 +120,18 @@ namespace Capstone.Tests
         {
             //Spinning endlessly due to Console.ReadKey
 
-            //InventoryFile.CreateStartingInventory();
-            //VendingMachine testvm1 = new VendingMachine();
-            //testvm1.FeedMoney(10);
-            //testvm1.PurchaseItem("D4");
-            //testvm1.PurchaseItem("D4");
-            //testvm1.PurchaseItem("D4");
-            //testvm1.PurchaseItem("D4");
-            //testvm1.PurchaseItem("D4");
-            //testvm1.PurchaseItem("D4");
-            //Assert.AreEqual("SOLD OUT", testvm1.Inventory["D4"].Quantity,
-            //    "Cannot purchase more than available quantity of item.");
-            
+            InventoryFile.CreateStartingInventory();
+            VendingMachine testvm1 = new VendingMachine();
+            testvm1.FeedMoney(10);
+            testvm1.PurchaseItem("D4");
+            testvm1.PurchaseItem("D4");
+            testvm1.PurchaseItem("D4");
+            testvm1.PurchaseItem("D4");
+            testvm1.PurchaseItem("D4");
+            testvm1.PurchaseItem("D4");
+            Assert.AreEqual(0, testvm1.Inventory["D4"].Quantity,
+                "Cannot purchase more than available quantity of item.");
+
         }
 
 

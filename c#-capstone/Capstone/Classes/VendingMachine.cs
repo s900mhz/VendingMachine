@@ -53,7 +53,7 @@ namespace Capstone.Classes
                     {
                         Console.WriteLine("Not enough current funds or item out of stock. \n" +
                                           "Press any key to continue.");
-                        Console.ReadKey();
+                        Thread.Sleep(5000);
                     }
                 }
             }

@@ -100,6 +100,12 @@ namespace Capstone.Tests
             vm5.PurchaseItem("D3");
             Assert.AreEqual("Your change is 5 Quarters 0 Dimes 0 Nickels.", Change.MakeChange(vm5.CurrentBalance), "Change given back is incorrect.");
 
+            InventoryFile.CreateStartingInventory();
+            VendingMachine testvm1 = new VendingMachine();
+            testvm1.FeedMoney(1);
+            testvm1.PurchaseItem("D1");
+            Assert.AreEqual("Your change is 0 Quarters 1 Dimes 1 Nickels.", Change.MakeChange(testvm1.CurrentBalance), "Change given back is incorrect.");
+
         }
 
         [TestMethod]

@@ -19,64 +19,37 @@ namespace Capstone.Classes
         
         public void DisplayInventory(bool exit)
         {
-            
             Console.Clear();
             Console.WriteLine($"Slot \t Item \t\t Price \t Quantity");
             foreach (KeyValuePair<string, InventorySlot> item in _vm.Inventory)
             {
-                var printQuantity = item.Value.Quantity.ToString();
-                if(item.Value.Quantity < 1)
-                {
-                    printQuantity = "SOLD OUT";
-                }
-
-                //Console.WriteLine("{15, 32}{15,32}", item.Key + item.Value.Item.ItemName + item.Value.Item.Price);
-                Console.WriteLine($"{item.Key} \t {item.Value.Item.ItemName} \t {item.Value.Item.Price}" +
-                    $" \t {printQuantity}");
-                //Console.WriteLine("{0,-10}", item.Key, item.Value.Item.ItemName, item.Value.Item.Price, item.Value.Quantity);
+            Console.WriteLine($"{item.Key} \t {item.Value.Item.ItemName} \t {item.Value.Item.Price}" +
+                    $" \t {item.Value.Qty}");
             }
             Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
             Console.WriteLine("Press any key to continue: ");
-            
-            if (exit)
-            {
-                Console.ReadKey();
-                Run();
-
-            }
-            
         }
         #endregion
         #region Display Purchase Menu
         public void DisplayPurchaseMenu()
         {
-            Console.Clear();
-            Console.WriteLine("(1) Feed Money \n" +
-                              "(2) Select Product \n" +
-                              "(3) Finish Transaction");
-            Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
-           string navigation = Console.ReadLine();
-
             bool exit = false;
             while (!exit)
             {
+                Console.Clear();
+                Console.WriteLine("(1) Feed Money \n" +
+                                  "(2) Select Product \n" +
+                                  "(3) Finish Transaction");
+                Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
+                string navigation = Console.ReadLine();
+
                 if (navigation == "1")
                 {
                     FeedMoneyMenu();
                 }
                 else if (navigation == "2")
                 {
-                    DisplayInventory(false);
-                    Console.WriteLine();
-                    Console.WriteLine("Please select your product or press b to go back: ");
-                    string productSelection = Console.ReadLine();
-                    productSelection = productSelection.ToUpper();
-                    _vm.PurchaseItem(productSelection);
-                    if (productSelection == "b" || productSelection == "B")
-                    {
-                        DisplayPurchaseMenu();
-                    }
-                    
+                    PurchaseProduct();
                 }
                 else if (navigation == "3")
                 {
@@ -87,40 +60,62 @@ namespace Capstone.Classes
                     SalesLog.WriteToLog(_vm.Inventory);
                     Console.ReadKey();
                     exit = true;
-                    Run();
                 }
             }
         }
         #endregion
-        public void DisplayReturnedChange() { }
+        private void PurchaseProduct()
+        {
+            bool exit = false;
+            while (!exit)
+            {
+                DisplayInventory(false);
+                Console.WriteLine();
+                Console.WriteLine("Please select your product or press b to go back: ");
+                string productSelection = Console.ReadLine();
+                if (productSelection == "b" || productSelection == "B")
+                {
+                    exit = true;
+                }
+                else
+                {
+                    productSelection = productSelection.ToUpper();
+                    _vm.PurchaseItem(productSelection);
+                }
+            }
+        }
         public Dictionary<string, InventorySlot> GetCurrentInventory()
         {
             return _vm.Inventory;
         }
         public void Run()
         {
-            Console.Clear();
-            Console.WriteLine("(1) Display Vending Machine Items \n" +
-                              "(2) Purchase");
-            Console.WriteLine();
-            Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
-            
-           string navigation = Console.ReadLine();
-            
-                if (navigation == "1")
+            bool exit = false;
+            while (!exit)
+            {
+                Console.Clear();
+                Console.WriteLine("(1) Display Vending Machine Items \n" +
+                                  "(2) Purchase\n" +
+                                  "(3) Quit");
+                Console.WriteLine();
+                Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
+
+                char navigation = Console.ReadKey().KeyChar;
+
+                if (navigation == '1')
                 {
                     DisplayInventory(true);
+                    Console.ReadKey();
                 }
-                else if (navigation == "2")
+                else if (navigation == '2')
                 {
                     DisplayPurchaseMenu();
                 }
-                else
+                else if (navigation == '3')
                 {
-                    Console.WriteLine("Please enter a valid selection. \n" +
-                                     "Press any key to continue.");
+                    exit = true;
                 }
-            Console.ReadKey();
+            }
         }
 
         #region Feed Money Menu
@@ -166,7 +161,6 @@ namespace Capstone.Classes
                 else if (navigation == "b" || navigation == "B")
                 { 
                     exit = true;
-                    DisplayPurchaseMenu();
                 }
             }
 

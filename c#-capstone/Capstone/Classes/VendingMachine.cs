@@ -8,9 +8,14 @@ using System.Threading;
 
 namespace Capstone.Classes
 {   
+    /// <summary>
+    /// 
+    /// </summary>
     public class VendingMachine
-    {
-        public decimal currentBalance = 0;
+    {        
+        /// <summary>
+        /// 
+        /// </summary>
         public decimal CurrentBalance { get; private set; }
         
         public Dictionary<string, InventorySlot> Inventory { get; } = null;
@@ -25,41 +30,29 @@ namespace Capstone.Classes
 
             CurrentBalance += dollars;
         }
-
-        //public Dictionary<string, InventorySlot> GetVendingInventory()
-        //{
-        //    //This is only passed to Transaction Log
-        //    return Inventory;
-        //}
-
+  
+        /// <summary>
+        ///    
+        /// </summary>
+        /// <param name="slot"></param>
         public void PurchaseItem(string slot)
         {
-            try
+            if (Inventory.Keys.Contains(slot))
             {
-
-                if (Inventory.Keys.Contains(slot))
+                if (CurrentBalance > Inventory[slot].Item.Price && Inventory[slot].Quantity > 0)
                 {
-                    if (CurrentBalance > Inventory[slot].Item.Price && Inventory[slot].Quantity > 0)
-                    {
-                        Inventory[slot].Quantity -= 1;
-                        CurrentBalance -= Inventory[slot].Item.Price;
-                        TransactionLog.PurchaseLog(Inventory[slot].Item.ItemName, slot,
-                                                   CurrentBalance, Inventory[slot].Item.Price);
-                        Console.WriteLine(Inventory[slot].Item.Consume());
-                        Thread.Sleep(1000);
-
-                    }
-                    else
-                    {
-                        Console.WriteLine("Not enough current funds or item out of stock. \n" +
-                                          "Press any key to continue.");
-                        Thread.Sleep(5000);
-                    }
+                    Inventory[slot].Quantity -= 1;
+                    CurrentBalance -= Inventory[slot].Item.Price;
+                    TransactionLog.PurchaseLog(Inventory[slot].Item.ItemName, slot,
+                                                CurrentBalance, Inventory[slot].Item.Price);
                 }
-            }
-            catch
-            {
-                Console.WriteLine("That is not a valid entry. Please try again");
+                else
+                {
+                    //CODE_REVIEW
+                    //No console write in vendingmachine class! Keep it in the CLI
+                    throw new Exception("Not enough current funds or item out of stock. \n" +
+                                        "Press any key to continue.");
+                }
             }
         }
         public void ResetBalance()

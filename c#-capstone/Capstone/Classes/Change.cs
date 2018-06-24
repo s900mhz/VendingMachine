@@ -6,25 +6,13 @@ using System.Threading.Tasks;
 
 namespace Capstone.Classes
 {
+    //CODE_REVIEW
+    //HOT MESS
+    //Properties with get private set.
+    //single constructor to pass in the value to make into change
+
     public class Change
     {
-
-
-        private int _Dimes = 0;
-        private int _Nickels = 0;
-        private int _Quarters = 0;
-        double TotalChange { get; }
-
-
-
-        public Change(decimal amountInDollars)
-        {
-           // VendingMachineCLI._vm.CurrentBalance
-        }
-        public Change(int amountInCents)
-        {
-
-        }
         public static string MakeChange(decimal currentBalance)
         {
             int _Dimes = 0;

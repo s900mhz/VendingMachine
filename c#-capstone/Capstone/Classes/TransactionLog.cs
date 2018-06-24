@@ -28,13 +28,21 @@ namespace Capstone.Classes
        public static void DepositLog(int amount, decimal currentBalance)
         {
             WriteToLog(System.DateTime.Now.ToString() +  " FEED MONEY: " + 
-                       amount.ToString("c") +"  " + currentBalance.ToString("c")); 
+                       amount.ToString("c").PadRight(2) +"  " + currentBalance.ToString("c")); 
         }
 
         public static void PurchaseLog(string item, string slot, decimal currentBalance, decimal price)
         {
-            WriteToLog($"{System.DateTime.Now.ToString()} {item} " +
-                       $"{slot} {currentBalance.ToString("c")} {(currentBalance - price).ToString("c")}");
+            WriteToLog($"{System.DateTime.Now.ToString()} {item.PadRight(5)} " +
+                       $"{slot} {currentBalance.ToString("c").PadRight(2)} {(currentBalance - price).ToString("c")}");
+        }
+
+        public static void ChangeLog(decimal currentBalance)
+        {
+            {
+                WriteToLog(System.DateTime.Now.ToString() + " CHANGE GIVEN: " 
+                           + currentBalance.ToString("c").PadLeft(10));
+            }
         }
         //CODE_REVIEW
         //Write give change to the vm log

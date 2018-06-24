@@ -50,6 +50,7 @@ namespace Capstone.Classes
                 {
                     //CODE_REVIEW
                     //No console write in vendingmachine class! Keep it in the CLI
+
                     throw new Exception("Not enough current funds or item out of stock. \n" +
                                         "Press any key to continue.");
                 }

@@ -63,8 +63,10 @@ namespace Capstone.Classes
                 else if (navigation == "3")
                 {
                     Change.MakeChange(_vm.CurrentBalance);
-                    Console.WriteLine("Your current balance is: " + _vm.CurrentBalance.ToString("c"));
+                    Console.WriteLine("Your returned balance is" +
+                        ": " + _vm.CurrentBalance.ToString("c"));
                     Console.WriteLine(Change.MakeChange(_vm.CurrentBalance));
+                    TransactionLog.ChangeLog(_vm.CurrentBalance);
                     _vm.ResetBalance();
                     SalesLog.WriteToLog(_vm.Inventory);
                     Console.ReadKey();

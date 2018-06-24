@@ -16,15 +16,24 @@ namespace Capstone.Classes
         }
         #region Methods
 
-        
+        /// <summary>
+        /// Console display for purchasing items. Needs updated to set current items called in loop so 
+        /// program isn't searching each time for that particular instance multiple times 
+        /// (e.g. line 34 item.Key.PadRight(3) set to a local variable that's then referenced *once* during
+        /// current iteration.
+        /// </summary>
+        /// <param name="exit"></param>
         public void DisplayInventory(bool exit)
         {
+            string padding = "";
             Console.Clear();
-            Console.WriteLine($"Slot \t Item \t\t Price \t Quantity");
+            Console.WriteLine($"Slot {padding.PadRight(1)} Item {padding.PadRight(12)}" +
+                              $"Price {padding.PadRight(2)} Quantity");
+            Console.WriteLine($"----------------------------------------");
             foreach (KeyValuePair<string, InventorySlot> item in _vm.Inventory)
             {
-            Console.WriteLine($"{item.Key} \t {item.Value.Item.ItemName} \t {item.Value.Item.Price}" +
-                    $" \t {item.Value.Qty}");
+            Console.WriteLine($"{item.Key.PadRight(3)} {item.Value.Item.ItemName.PadRight(20)} " +
+                $"{item.Value.Item.Price.ToString().PadRight(10)} {item.Value.Qty.PadRight(10)}");
             }
             Console.WriteLine($"Available balance: {_vm.CurrentBalance.ToString("c")}");
             Console.WriteLine("Press any key to continue: ");

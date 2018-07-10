@@ -37,6 +37,17 @@ namespace Capstone.Classes
         /// <param name="slot"></param>
         public void PurchaseItem(string slot)
         {
+            if (CurrentBalance < Inventory[slot].Item.Price)
+            {
+                throw new Exception("Not enough current funds " +
+                                "Press any key to continue.");
+            }
+            else if (Inventory[slot].Quantity <= 0)
+            {
+                throw new Exception("Item out of stock. \n" +
+                                "Press any key to continue.");
+            }
+
             if (Inventory.Keys.Contains(slot))
             {
                 if (CurrentBalance > Inventory[slot].Item.Price && Inventory[slot].Quantity > 0)
@@ -45,15 +56,19 @@ namespace Capstone.Classes
                     CurrentBalance -= Inventory[slot].Item.Price;
                     TransactionLog.PurchaseLog(Inventory[slot].Item.ItemName, slot,
                                                 CurrentBalance, Inventory[slot].Item.Price);
-                }
-                else
-                {
-                    //CODE_REVIEW
-                    //No console write in vendingmachine class! Keep it in the CLI
+                   
 
                     throw new Exception("Not enough current funds or item out of stock. \n" +
                                         "Press any key to continue.");
                 }
+                //else
+                //{
+                //    //CODE_REVIEW
+                //    //No console write in vendingmachine class! Keep it in the CLI
+
+                //    throw new Exception("Not enough current funds or item out of stock. \n" +
+                //                        "Press any key to continue.");
+                //}
             }
         }
         public void ResetBalance()

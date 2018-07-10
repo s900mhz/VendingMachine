@@ -91,7 +91,18 @@ namespace Capstone.Classes
                 else
                 {
                     productSelection = productSelection.ToUpper();
-                    _vm.PurchaseItem(productSelection);
+                    try
+                    {
+                        _vm.PurchaseItem(productSelection);
+                       Console.WriteLine(_vm.Inventory[productSelection].Item.Consume());
+                        Console.ReadKey();
+                    }
+                    catch(Exception e)
+                    {
+                        Console.WriteLine(e.Message);
+                        Console.ReadKey();
+                    }
+                   
                 }
             }
         }

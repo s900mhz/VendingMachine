@@ -58,8 +58,6 @@ namespace Capstone.Classes
                                                 CurrentBalance, Inventory[slot].Item.Price);
                    
 
-                    throw new Exception("Not enough current funds or item out of stock. \n" +
-                                        "Press any key to continue.");
                 }
                 //else
                 //{
